@@ -27,7 +27,7 @@ async function getAllHotels() {
 }
 
 // Get Hotel By Id
-router.get("/getAllHotels/:hotelId", async (req, res) => {
+router.get("/:hotelId", async (req, res) => {
   try {
     const { hotelId } = req.params;
     const hotel = await getHotel(hotelId);
