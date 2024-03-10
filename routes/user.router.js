@@ -128,9 +128,9 @@ async function addFavourites(email, hotel) {
 }
 
 // Get User
-router.get("/getUser", async (req, res) => {
+router.get("/getUser/:email", async (req, res) => {
   try {
-    const { email } = req.body;
+    const { email } = req.params;
     const user = await getUser(email);
     res.status(200).json({
       message: "User Fetched",
