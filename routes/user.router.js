@@ -147,10 +147,10 @@ async function removeFavourite(email, hotelId) {
 
     const updatedFavourites = user.favourites.filter((hotel) => hotel._id !== hotelId)
 
-    const updatedUser = User.findByIdAndUpdate(
-      user._id,
-      { $push: { favourites: updatedFavourites } },
-      { new: true, useFindAndModify: false },
+    const updatedUser = User.findOneAndUpdate(
+      { email: email },
+      { favourites: updatedFavourites },
+      { new: true },
     );
 
     return updatedUser;
