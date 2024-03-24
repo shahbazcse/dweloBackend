@@ -127,6 +127,38 @@ async function addFavourites(email, hotel) {
   }
 }
 
+// Remove Favourite
+router.post("/removeFavourite", async (req, res) => {
+  try {
+    const { email, hotelId } = req.body;
+    const user = await removeFavourite(email, hotelId);
+    res.status(200).json({
+      message: "Favourite Removed",
+      favourites: user.favourites,
+    });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+async function removeFavourite(email, hotelId) {
+  try {
+    const user = await User.findOne({ email: email });
+
+    const updatedFavourites = user.favourites.filter((hotel) => hotel._id !== hotelId)
+
+    const updatedUser = User.findByIdAndUpdate(
+      user._id,
+      { $push: { favourites: updatedFavourites } },
+      { new: true, useFindAndModify: false },
+    );
+
+    return updatedUser;
+  } catch (error) {
+    throw error;
+  }
+}
+
 // Get User
 router.get("/getUser/:email", async (req, res) => {
   try {
